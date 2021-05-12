@@ -25,13 +25,13 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['~assets/styles/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ['~plugins/core-components.ts', '~plugins/date-filter.ts'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
+  // components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -40,8 +40,18 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [],
+  modules: ['@nuxtjs/axios'],
+  axios: {
+    baseURL:
+      process.env.BASE_URL ||
+      'https://nuxt-blog-9760b-default-rtdb.asia-southeast1.firebasedatabase.app',
+    credentials: false,
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  transition: {
+    name: 'fade',
+    mode: 'out-in',
+  },
 }

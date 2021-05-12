@@ -4,7 +4,7 @@
       <h1 class="post-title">{{ loadedPost.title }}</h1>
       <div class="post-details">
         <div class="post-detail">
-          Last updated on {{ loadedPost.updatedDate }}
+          Last updated on {{ loadedPost.updatedDate | date }}
         </div>
         <div class="post-detail">Written by {{ loadedPost.author }}</div>
       </div>
@@ -23,21 +23,24 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import axios from 'axios'
+// import axios from 'axios'
 
 @Component
 export default class PostId extends Vue {
   async asyncData(context: {
+    app: { $axios: { $get: (arg0: string) => any } }
     params: { id: string }
     error: (arg0: any) => any
   }) {
     try {
-      const res = await axios.get(
-        'https://nuxt-blog-9760b-default-rtdb.asia-southeast1.firebasedatabase.app/posts/' +
-          context.params.id +
-          '.json'
+      const res = await context.app.$axios.$get(
+        '/posts/' + context.params.id + '.json'
       )
-      return { loadedPost: res.data }
+      console.log('🚀 ~ res', res)
+      // return { loadedPost: res.data }
+      return {
+        loadedPost: res,
+      }
     } catch (e) {
       return context.error(e)
     }

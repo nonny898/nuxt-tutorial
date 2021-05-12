@@ -9,7 +9,6 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import AdminPostForm from '@/components/Admin/AdminPostForm.vue'
-import axios from 'axios'
 
 @Component({
   components: { AdminPostForm },
@@ -20,17 +19,9 @@ export default class NewPost extends Vue {
   }
 
   onSubmitted(postData: object) {
-    axios
-      .post(
-        'https://nuxt-blog-9760b-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json',
-        { ...postData, updatedDate: new Date() }
-      )
-      .then((result) => {
-        console.log('result :>> ', result)
-      })
-      .catch((e) => {
-        console.log('e :>> ', e)
-      })
+    this.$store.dispatch('addPost', postData).then(() => {
+      this.$router.push('/admin')
+    })
   }
 }
 </script>

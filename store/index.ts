@@ -13,45 +13,58 @@ export const getters: GetterTree<RootState, RootState> = {
 
 export const mutations: MutationTree<RootState> = {
   SET_POST: (state, posts: object[]) => (state.loadedPosts = posts),
+  ADD_POST: (state, post: object) => state.loadedPosts.push(post),
+  EDIT_POST: (state, editedPost: any) => {
+    const postIndex = state.loadedPosts.findIndex((post: any) => {
+      return post.id === editedPost.id
+    })
+    state.loadedPosts[postIndex] = editedPost
+  },
 }
 
 export const actions: ActionTree<RootState, RootState> = {
-  nuxtServerInit(vuexContext, context) {
-    return axios
-      .get(
-        'https://nuxt-blog-9760b-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json'
-      )
-      .then((red) => {
-        const postsArray = []
-        for (const key in red.data) {
-          postsArray.push({ ...red.data[key], id: key })
-        }
-        vuexContext.commit('SET_POST', postsArray)
-      })
-      .catch((e) => context.error(e))
-    // return new Promise<void>((resolve) => {
-    //   setTimeout(() => {
-    //     vuexContext.commit('SET_POST', [
-    //       {
-    //         id: '1',
-    //         title: 'First Post',
-    //         previewText: 'This is our first post!',
-    //         thumbnail:
-    //           'https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg',
-    //       },
-    //       {
-    //         id: '2',
-    //         title: 'Second Post',
-    //         previewText: 'This is our second post!',
-    //         thumbnail:
-    //           'https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg',
-    //       },
-    //     ])
-    //     resolve()
-    //   }, 1000)
-    // })
+  async nuxtServerInit(vuexContext, context) {
+    try {
+      const res = await context.app.$axios.$get('/posts.json')
+      const postsArray = []
+      for (const key in res) {
+        postsArray.push({ ...res[key], id: key })
+      }
+      vuexContext.commit('SET_POST', postsArray)
+    } catch (e) {
+      return context.error(e)
+    }
   },
   setPosts(vuexContext, posts) {
     vuexContext.commit('SET_POST', posts)
+  },
+  async addPost(vuexContext, post) {
+    const createdPost = {
+      ...post,
+      updatedDate: new Date(),
+    }
+    try {
+      const res = await this.$axios.$post(
+        'https://nuxt-blog-9760b-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json',
+        createdPost
+      )
+      vuexContext.commit('ADD_POST', { ...createdPost, id: res.name })
+    } catch (e) {
+      return console.log(e)
+    }
+  },
+  async editPost(vuexContext, editedPost) {
+    try {
+      const res = await axios.put(
+        'https://nuxt-blog-9760b-default-rtdb.asia-southeast1.firebasedatabase.app/posts/' +
+          editedPost.id +
+          '.json',
+        editedPost
+      )
+      console.log('🚀 ~ res', res)
+      vuexContext.commit('EDIT_POST', editedPost)
+    } catch (e) {
+      return console.log(e)
+    }
   },
 }

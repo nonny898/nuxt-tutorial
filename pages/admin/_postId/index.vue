@@ -36,19 +36,9 @@ export default class PostList extends Vue {
   }
 
   onSubmitted(editedPost: object) {
-    axios
-      .put(
-        'https://nuxt-blog-9760b-default-rtdb.asia-southeast1.firebasedatabase.app/posts/' +
-          this.$route.params.postId +
-          '.json',
-        editedPost
-      )
-      .then((result) => {
-        console.log('result :>> ', result)
-      })
-      .catch((e) => {
-        console.log('e :>> ', e)
-      })
+    this.$store.dispatch('editPost', editedPost).then(() => {
+      this.$router.push('/admin')
+    })
   }
 }
 </script>

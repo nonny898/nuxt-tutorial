@@ -13,8 +13,6 @@ import PostList from '@/components/Posts/PostList.vue'
   components: { PostList },
 })
 export default class Posts extends Vue {
-  name: string = 'Posts'
-
   get loadedPosts() {
     return this.$store.getters.loadedPosts
   }

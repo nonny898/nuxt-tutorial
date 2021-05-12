@@ -48,7 +48,6 @@ export default class AdminPostForm extends Vue {
   @Emit('submit')
   onSave() {
     // Save the post
-    console.log(this.editedPost)
     return this.editedPost
   }
 

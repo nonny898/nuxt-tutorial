@@ -9,12 +9,8 @@
 
 <script lang="ts">
 import { Vue, Component } from 'nuxt-property-decorator'
-import PostList from '../components/Posts/PostList.vue'
 
-@Component({
-  // omit the namespace argument ('myModule') if you are not using namespaced modules
-  components: { PostList },
-})
+@Component
 export default class Main extends Vue {
   // asyncData(context: object) {
   //   console.log('context :>> ', context)
