@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'nuxt-tutorial',
+    title: 'WD Blog',
     htmlAttrs: {
       lang: 'en',
     },
@@ -50,8 +50,16 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  env: {
+    fbAPIKey: 'AIzaSyBqjJbdPkGQMmp5SPXNao7byhTU3dBjU_4',
+  },
+
   transition: {
     name: 'fade',
     mode: 'out-in',
+  },
+  router: {
+    middleware: 'log',
   },
 }

@@ -4,6 +4,7 @@
       <AppButton @click="$router.push('/admin/new-post')">
         Create Post
       </AppButton>
+      <AppButton style="margin-left: 10px" @click="onLogout">Logout</AppButton>
     </section>
     <section class="existing-posts">
       <h1>Existing Posts</h1>
@@ -19,6 +20,7 @@ import AppButton from '@/components/UI/AppButton.vue'
 
 @Component({
   components: { PostList, AppButton },
+  middleware: ['check-auth', 'auth'],
 })
 export default class Admin extends Vue {
   layout() {
@@ -29,6 +31,11 @@ export default class Admin extends Vue {
 
   get loadedPosts() {
     return this.$store.getters.loadedPosts
+  }
+
+  onLogout() {
+    this.$store.dispatch('logout')
+    this.$router.push('/admin/auth')
   }
 }
 </script>

@@ -14,6 +14,7 @@ import TheSidenav from '@/components/Navigation/TheSidenav.vue'
 @Component({
   // omit the namespace argument ('myModule') if you are not using namespaced modules
   components: { TheHeader, TheSidenav },
+  middleware: ['log'],
 })
 export default class Default extends Vue {
   displaySidenav: boolean = false

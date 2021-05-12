@@ -23,7 +23,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-// import axios from 'axios'
 
 @Component
 export default class PostId extends Vue {
@@ -36,8 +35,6 @@ export default class PostId extends Vue {
       const res = await context.app.$axios.$get(
         '/posts/' + context.params.id + '.json'
       )
-      console.log('🚀 ~ res', res)
-      // return { loadedPost: res.data }
       return {
         loadedPost: res,
       }
