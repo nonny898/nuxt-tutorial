@@ -52,7 +52,7 @@ export default {
   build: {},
 
   env: {
-    fbAPIKey: 'AIzaSyBqjJbdPkGQMmp5SPXNao7byhTU3dBjU_4',
+    fbAPIKey: '',
   },
 
   transition: {
